@@ -1,7 +1,7 @@
 var fs = require('fs')
 var inquirer = require('inquirer')
 
-var Character = require('./constructors/actionPrompts')
+var Character = require('./constructors/simChar')
 
 var yourSim = {};
 
