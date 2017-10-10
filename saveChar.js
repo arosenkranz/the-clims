@@ -1,1 +1,1 @@
-[{"name":"Kranz","age":30,"hairColor":"Black","health":73,"bored":true,"hungry":false,"potty":false,"bankAccount":2524}]
+[{"saveId":11540,"name":"Kranz","age":30,"hairColor":"Blonde","health":80,"bored":true,"hungry":false,"potty":false,"bankAccount":2600,"music":{"songsListenedTo":[]}}]
