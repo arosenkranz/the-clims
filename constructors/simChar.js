@@ -1,7 +1,7 @@
 var fs = require("fs");
 var Music = require("./listen");
 
-const Character = function (name, age, playSimPrompt) {
+const Character = function (name, age) {
   // vitals
   this.saveId = Math.floor(Math.random() * 45000);
   this.name = name;
@@ -13,13 +13,12 @@ const Character = function (name, age, playSimPrompt) {
   this.thirsty = false;
   this.potty = false;
   this.bankAcct = 0;
-  this.playSim = playSimPrompt;
   
-  this.music = new Music(playSimPrompt);
+  this.music = new Music();
   var THIS = this;
 
 };
-Character.prototype.saveGame = function (quitGame) {
+Character.prototype.saveGame = function (quitGame, playSim) {
   var saveData = {
     saveId: this.saveId,
     name: this.name,
@@ -57,7 +56,7 @@ Character.prototype.saveGame = function (quitGame) {
         if (quitGame) {
           return false;
         } else {
-          THIS.playSim();
+          playSim();
         }
       });
   });
@@ -89,28 +88,28 @@ Character.prototype.setAttributes = function () {
   this.printCharStats();
 };
 
-Character.prototype.chillax = function () {
+Character.prototype.chillax = function (playSim) {
   this.bankAcct -= Math.floor(Math.random() * 3);  
-  this.music.lookForPlaylist();
+  this.music.lookForPlaylist(playSim);
   this.health += 3;
   this.bored = true;
 };
 
-Character.prototype.eat = function () {
+Character.prototype.eat = function (playSim) {
   this.hungry = false;
   this.bankAcct -= Math.floor(Math.random() * 15) + 4;
   this.potty = true;
   this.printCharStats();
-  this.playSim();  
+  playSim();  
 };
 
-Character.prototype.potty = function() {
+Character.prototype.potty = function(playSim) {
   this.bankAcct -= Math.floor(Math.random() * 6) + 1;
   
   this.potty = false;
   this.bored = true;
   this.printCharStats();
-  this.playSim();  
-}
+  playSim();  
+};
 
 module.exports = Character;

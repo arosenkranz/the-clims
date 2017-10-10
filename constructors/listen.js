@@ -4,12 +4,11 @@ var Dotenv = require("dotenv").config();
 
 var spotifyClient = new Spotify({id: process.env.SPOTIFY_CLIENT_ID, secret: process.env.SPOTIFY_CLIENT_SECRET});
 
-function Music(playSim) {
+function Music() {
   this.songsListenedTo = [];
-  this.playSim = playSim;
+  this.playSim;
 
-  var THIS = this;
-
+  var THISmusic = this;
 
   this.getPlaylistTracks = function (playlistId) {
     console.log(playlistId);
@@ -21,7 +20,7 @@ function Music(playSim) {
 
           playlistTracks.push('"' + data.items[i].track.name + '" by ' + data.items[i].track.album.artists[0]["name"]);
         }
-        THIS.pickTrack(playlistTracks);
+        THISmusic.pickTrack(playlistTracks);
       });
   }
 
@@ -43,24 +42,26 @@ function Music(playSim) {
             console.log("You just listened to...");
             console.log(tracks[i]);
             console.log("============\n");
-            THIS
+            THISmusic
               .songsListenedTo
               .push(tracks[i]);
           }
         }
-        THIS.playSim();
+        THISmusic.playSim();
         
       });
 
   }
 
-  this.lookForPlaylist = function () {
+  this.lookForPlaylist = function (playSim) {
     var playList = [];
+    this.playSim = playSim;
+    console.log("loaded")
     spotifyClient
       .request("https://api.spotify.com/v1/users/alexrosenkranz/playlists")
       .then(function (data) {
         playList = data.items;
-        THIS.pickPlaylist(playList);
+        THISmusic.pickPlaylist(playList);
       });
   }
 
@@ -87,7 +88,7 @@ function Music(playSim) {
           }
         }
         console.log(pickedPlaylistId);
-        THIS.getPlaylistTracks(pickedPlaylistId);
+        THISmusic.getPlaylistTracks(pickedPlaylistId);
       });
 
   }

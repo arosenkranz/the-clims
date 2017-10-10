@@ -16,7 +16,6 @@
         }
         if (data) {
           saveGame = JSON.parse(data);
-          console.log(saveGame);
         }
         loadGame(saveGame);
 
@@ -49,7 +48,7 @@
 
       // randomize some attributes
       yourSim.setAttributes();
-      yourSim.saveGame(false);
+      yourSim.saveGame(false, playSim);
 
       // playSim();
     });
@@ -88,6 +87,7 @@
           yourSim.health = loadedChar.health;
           yourSim.bankAcct = loadedChar.bankAcct;
           yourSim.printCharStats()
+          playSim();
         }
       });
 
@@ -119,21 +119,21 @@
       }
       ])
       .then(function (activityPicked) {
-        switch (activityPicked) {
+        switch (activityPicked.activity) {
           case "Chillax (Listen to music)":
-            yourSim.chillax();
+            yourSim.chillax(playSim);
             break;
           case "Eat":
-            yourSim.eat();
+            yourSim.eat(playSim);
             break;
           case "Potty":
-            yourSim.potty();
+            yourSim.potty(playSim);
             break;
           case "Save Game":
-            yourSim.saveGame(false);
+            yourSim.saveGame(false, playSim);
             break;
           case "Save Game & Quit":
-            yourSim.saveGame(true);
+            yourSim.saveGame(true, playSim);
             break;
           case "Restart Game":
             readSave();
