@@ -17,7 +17,7 @@ function Music() {
       .request("https://api.spotify.com/v1/users/alexrosenkranz/playlists/" + playlistId + "/tracks?limit=30")
       .then(function (data) {
         for (var i = 0; i < data.items.length; i++) {
-
+          
           playlistTracks.push('"' + data.items[i].track.name + '" by ' + data.items[i].track.album.artists[0]["name"]);
         }
         THISmusic.pickTrack(playlistTracks);

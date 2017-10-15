@@ -31,34 +31,45 @@ Character.prototype.saveGame = function (quitGame, playSim) {
     bankAccount: this.bankAcct,
     music: this.music
   }
-  fs.readFile("savedChar.js", "utf8", function (err, result) {
+  console.log(saveData);
+  fs.readFile("saveChar.js", "utf8", function (err, result) {
     var savedArr = [];
-    if (!result) {
+    var returnedData = [];
+    if (result) {
+      returnedData = JSON.parse(result);
+      console.log("save found");
+    }
+    console.log(returnedData);
+    if (returnedData.length === 0) {
       savedArr = [saveData];
+      console.log(savedArr);
     } else {
       var foundSave = false;
-      for (var i = 0; i < result.length; i++) {
-        if (result[i].saveId === this.saveId) {
+      for (var key in returnedData) {
+        if (returnedData.saveId === this.saveId) {
           foundSave = true;
-          result[i].saveId = saveData;
+          console.log("this hit");
+          savedArr[key] = saveData;
         }
       }
       if (!foundSave) {
-        savedArr = result.push(saveData);        
+        savedArr = returnedData.push(saveData);
       }
     }
+    console.log(savedArr);
     fs
-      .writeFile("saveChar.js", JSON.stringify(savedArr), function (err) {
-        if (err) {
-          console.log("SOMETHING WENT WRONG!");
-          return console.log(err);
-        }
-        if (quitGame) {
-          return false;
-        } else {
-          playSim();
-        }
-      });
+    .writeFile("saveChar.js", JSON.stringify(savedArr), function (err) {
+      if (err) {
+        console.log("SOMETHING WENT WRONG!");
+        return console.log(err);
+      }
+      if (quitGame) {
+        return false;
+      } else {
+        playSim();
+      }
+    });
+
   });
 }
 
