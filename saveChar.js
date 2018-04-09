@@ -1,0 +1,1 @@
+[{"saveId":"ae00b999-afd9-4564-98e2-f43e7ae9a72a","name":"Alex","age":10,"hairColor":"Beach Blonde","health":98,"bored":true,"hungry":false,"thirsty":false,"potty":false,"bankAccount":2528,"music":{"songsListenedTo":[]}}]
