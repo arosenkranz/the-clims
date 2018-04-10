@@ -39,6 +39,19 @@
       loadGame([]);
     }
   }
+  /* ============================= */
+
+  /* Function used to push user towards loading a saved user or starting a new character */
+  function loadGame(gameInfo) {
+    /* If file from json was NOT empty, let's pass that into load up our characters */
+    if (gameInfo.length > 0) {
+      /* pass game info into our savedGame function */
+      savedGame(gameInfo);
+    } else {
+      /* otherwise let's start a new character */
+      newGame();
+    }
+  }
 
   /* ============================= */
 
@@ -134,20 +147,6 @@
 
   /* ============================= */
 
-  /* Function used to push user towards loading a saved user or starting a new character */
-  function loadGame(gameInfo) {
-    /* If file from json was NOT empty, let's pass that into load up our characters */
-    if (gameInfo.length > 0) {
-      /* pass game info into our savedGame function */
-      savedGame(gameInfo);
-    } else {
-      /* otherwise let's start a new character */
-      newGame();
-    }
-  }
-
-  /* ============================= */
-
   /* Function used to actually play with our characters */
   var playSim = function() {
     inquirer
@@ -172,15 +171,15 @@
           yourSim.goPotty(playSim);
           break;
         case 'Save Game':
-        /* Save game and keep playing */
+          /* Save game and keep playing */
           yourSim.saveGame(false, playSim);
           break;
         case 'Save Game & Quit':
-        /* Save game and quit */
+          /* Save game and quit */
           yourSim.saveGame(true, playSim);
           break;
         case 'Restart Game':
-        /* Go back to the beginning */
+          /* Go back to the beginning */
           readSave();
           break;
         }

@@ -19,25 +19,23 @@ function Music() {
   /* save reference to this because of scoping inside of spotify object */
   var THISmusic = this;
 
-  /* Set to hold our callback */
-  this.playSim;
 
   /* Function executed when we say "chillax" */
   this.lookForPlaylist = function(playSim) {
     var playList = [];
     /* Store playSim callback function into object, so we don't have to pass it around from function to function */
-    this.playSim = playSim;
+    // this.playSim = playSim;
 
     /* Hit spotify api looking for alex's playlists */
     spotifyClient.request('https://api.spotify.com/v1/users/alexrosenkranz/playlists').then(function(data) {
       /* store playlists and send them to method to be picked */
       playList = data.items;
-      THISmusic.pickPlaylist(playList);
+      THISmusic.pickPlaylist(playList, playSim);
     });
   };
 
   /* Takes in list of playlists and lets us pick which one we want to listen to */
-  this.pickPlaylist = function(playlists) {
+  this.pickPlaylist = function(playlists, playSim) {
     var playlistNames = [];
     var pickedPlaylistId;
     for (var i = 0; i < playlists.length; i++) {
@@ -60,12 +58,12 @@ function Music() {
           }
         }
         /* Send playlist id to method to get our tracks */
-        THISmusic.getPlaylistTracks(pickedPlaylistId);
+        THISmusic.getPlaylistTracks(pickedPlaylistId, playSim);
       });
   };
 
   /* get alex rosenkranz's playlists */
-  this.getPlaylistTracks = function(playlistId) {
+  this.getPlaylistTracks = function(playlistId, playSim) {
     var playlistTracks = [];
     spotifyClient
       .request('https://api.spotify.com/v1/users/alexrosenkranz/playlists/' + playlistId + '/tracks?limit=30')
@@ -74,12 +72,12 @@ function Music() {
           playlistTracks.push('"' + data.items[i].track.name + '" by ' + data.items[i].track.album.artists[0]['name']);
         }
         /* run pickTrack and pass in our list of tracks from playlist */
-        THISmusic.pickTrack(playlistTracks);
+        THISmusic.pickTrack(playlistTracks,playSim);
       });
   };
 
   /* Pick a track */
-  this.pickTrack = function(tracks) {
+  this.pickTrack = function(tracks, playSim) {
     inquirer
       .prompt([
         {
@@ -100,7 +98,7 @@ function Music() {
         THISmusic.songsListenedTo.push(trackPicker.trackSelected);
 
         /* Play our Sim again (this is the callback function) */
-        THISmusic.playSim();
+        playSim();
       });
   };
 }
