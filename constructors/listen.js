@@ -24,13 +24,12 @@ function Music() {
   this.lookForPlaylist = function(playSim) {
     var playList = [];
     /* Store playSim callback function into object, so we don't have to pass it around from function to function */
-    // this.playSim = playSim;
 
     /* Hit spotify api looking for alex's playlists */
     spotifyClient.request('https://api.spotify.com/v1/users/alexrosenkranz/playlists').then(function(data) {
       /* store playlists and send them to method to be picked */
       playList = data.items;
-      THISmusic.pickPlaylist(playList, playSim);
+      return THISmusic.pickPlaylist(playList, playSim);
     });
   };
 
@@ -58,7 +57,7 @@ function Music() {
           }
         }
         /* Send playlist id to method to get our tracks */
-        THISmusic.getPlaylistTracks(pickedPlaylistId, playSim);
+        return THISmusic.getPlaylistTracks(pickedPlaylistId, playSim);
       });
   };
 
@@ -72,7 +71,7 @@ function Music() {
           playlistTracks.push('"' + data.items[i].track.name + '" by ' + data.items[i].track.album.artists[0]['name']);
         }
         /* run pickTrack and pass in our list of tracks from playlist */
-        THISmusic.pickTrack(playlistTracks,playSim);
+        return THISmusic.pickTrack(playlistTracks,playSim);
       });
   };
 
@@ -98,7 +97,7 @@ function Music() {
         THISmusic.songsListenedTo.push(trackPicker.trackSelected);
 
         /* Play our Sim again (this is the callback function) */
-        playSim();
+        return playSim();
       });
   };
 }

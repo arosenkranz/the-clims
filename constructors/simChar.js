@@ -23,8 +23,7 @@ var Character = function(name, age) {
 };
 
 /* Add save game method that takes in arguments on whether or not we want to quit the game and playSim is our callback function */
-Character.prototype.saveGame = function(quitGame, playSim) {
-
+Character.prototype.saveGame = function(quitGame, cb) {
   /* Store all of our character's data to make saving easier */
   var saveData = {
     saveId: this.saveId,
@@ -55,7 +54,6 @@ Character.prototype.saveGame = function(quitGame, playSim) {
     if (returnedData.length === 0) {
       savedArr = [saveData];
     } else {
-
       /* if there IS returned data, then let's set it to our savedArray */
       savedArr = returnedData;
       var foundSave = false;
@@ -86,7 +84,7 @@ Character.prototype.saveGame = function(quitGame, playSim) {
         return false;
       } else {
         /* Else let's run playSim (callback function we sent over from app.js) */
-        playSim();
+        cb();
       }
     });
   });
@@ -118,12 +116,8 @@ Character.prototype.setAttributes = function() {
 
 /* Run chillax, which costs money, take in playSim as callback function */
 Character.prototype.chillax = function(playSim) {
-
   /* Play spotify fee */
   this.bankAcct -= Math.floor(Math.random() * 3);
-
-  /* run look for playlist method from music constuctor and pass playSim down as callback */
-  this.music.lookForPlaylist(playSim);
 
   /* music is good for the health */
   this.health += 3;
@@ -131,6 +125,8 @@ Character.prototype.chillax = function(playSim) {
   /* too much chillaxing makes you bored */
   this.bored = true;
 
+  /* run look for playlist method from music constuctor and pass playSim down as callback */
+  return this.music.lookForPlaylist(playSim);
 };
 
 /* Eat some food */
@@ -150,6 +146,5 @@ Character.prototype.goPotty = function(playSim) {
   this.printCharStats();
   playSim();
 };
-
 
 module.exports = Character;
